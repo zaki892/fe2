@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produk - Fitri Skincare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom, #a78bfa, #f9a8d4);
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="text-xl font-bold text-purple-600">Fitri Skincare</div>
+      <div class="space-x-6">
+        <a href="index.html" class="text-purple-600 font-semibold">Beranda</a>
+        <a href="tentang.html" class="text-purple-500 hover:text-pink-500 font-medium">Tentang Kami</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-r from-purple-300 via-pink-200 to-pink-100 py-16">
+    <div class="max-w-3xl mx-auto text-center">
+      <h1 class="text-4xl font-bold text-purple-700 mb-4">Selamat Datang di Fitri Skincare!</h1>
+      <p class="text-gray-700 text-lg">Dapatkan kulit cantik impianmu dengan produk pilihan kami.</p>
+    </div>
+  </section>
+
+  <!-- Produk Section -->
+  <section class="py-12 px-6 bg-white bg-opacity-60">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold text-purple-700 mb-6 text-center">Produk Kami</h2>
+      <div id="produkContainer" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <!-- Kartu produk akan dimuat di sini -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Script Fetch Produk -->
+  <script>
+    const API_URL = "https://crud-api-production-1baf.up.railway.app/api/products";
+
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('produkContainer');
+        container.innerHTML = '';
+        data.forEach(p => {
+          container.innerHTML += `
+            <div class="bg-white rounded-lg shadow-md p-4 hover:shadow-xl transition flex flex-col justify-between">
+              <img src="${p.gambar}" alt="${p.nama_produk}" class="h-40 w-full object-cover rounded mb-3">
+              <div>
+                <h3 class="text-lg font-semibold text-purple-700 mb-1">${p.nama_produk}</h3>
+                <p class="text-sm text-gray-500 mb-1">${p.kategori}</p>
+                <p class="text-xl font-bold text-pink-600 mb-2">Rp${Number(p.harga).toLocaleString('id-ID')}</p>
+                <p class="text-sm text-gray-600 mb-1">Stok: ${p.stok}</p>
+                <p class="text-sm text-gray-600 mb-3">${p.detail}</p>
+                <a 
+                  href="https://wa.me/62895622781071?text=Halo%20kak%2C%20saya%20ingin%20pesan%20produk%20*${encodeURIComponent(p.nama_produk)}*%20seharga%20Rp${Number(p.harga).toLocaleString('id-ID')}%0AJumlah:%201%0ANama:%20%0AAlamat:%20" 
+                  target="_blank"
+                  class="block mt-3 bg-pink-500 hover:bg-gray-600 text-white text-sm font-semibold px-4 py-2 rounded text-center"
+                >
+                  Beli 
+                </a>
+              </div>
+            </div>
+          `;
+        });
+      })
+      .catch(err => console.error('Gagal memuat produk:', err));
+  </script>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t mt-12">
+    <div class="max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
+      <p>&copy; 2025 Fitri Skincare. All rights reserved.</p>
+      <div class="flex space-x-4 mt-4 md:mt-0">
+        <a href="#" class="hover:text-pink-600">Privasi</a>
+        <a href="#" class="hover:text-pink-600">Syarat & Ketentuan</a>
+        <a href="#" class="hover:text-pink-600">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
